@@ -12,7 +12,7 @@ backend:
     repository: digdigdigdig/manualproject-backend
     tag: 8f702a39afc407904578afd9c059b6821cbaa72b
   replicas: 1
-  port: 5001
+  port: 5000
 
 postgres:
   image:
