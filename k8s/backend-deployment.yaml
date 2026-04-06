@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: todo-app
+  name: backend-deployment
+  labels:
+    app: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: digdigdigdig/manualproject-backend:latest 
+        ports:
+        - containerPort: 5001
+        env:
+        - name: DATABASE_HOST
+          value: postgres-service
+        - name: DATABASE_PORT
+          value: "5432"
+        - name: DATABASE_NAME
+          value: todos
+        - name: DATABASE_USER
+          value: postgres
+        - name: DATABASE_PASSWORD
+          valueFrom:   
+            secretKeyRef: 
+              name: secret-basic-auth
+              key: password
