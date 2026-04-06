@@ -17,7 +17,7 @@ backend:
 postgres:
   image:
     repository: postgres
-    tag: e774b36fa8fcc104171d26f8e2ab4db34ee9131d
+    tag: 15
   replicas: 1
   port: 5432
   database: todos
