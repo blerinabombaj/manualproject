@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: myconfigmap
+  namespace: {{ .Values.namespace }}
+data:
+  username: {{ .Values.postgres.user }}
+  password: {{ .Values.secret.password }}
+  access_level: "1"

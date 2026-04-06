@@ -1,0 +1,36 @@
+namespace: todo-app
+
+frontend:
+  image:
+    repository: digdigdigdig/manualproject-frontend
+    tag: latest
+  replicas: 1
+  port: 80
+
+backend:
+  image:
+    repository: digdigdigdig/manualproject-backend
+    tag: latest
+  replicas: 1
+  port: 5001
+
+postgres:
+  image:
+    repository: postgres
+    tag: 16-alpine
+  replicas: 1
+  port: 5432
+  database: todos
+  user: postgres
+
+secret:
+  password: password
+
+ingress:
+  className: nginx
+  frontendPath: /
+  backendPath: /tasks
+
+rbac:
+  devUser: dev-user
+  adminUser: admin-user
