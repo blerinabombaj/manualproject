@@ -3,14 +3,14 @@ namespace: todo-app
 frontend:
   image:
     repository: digdigdigdig/manualproject-frontend
-    tag: e774b36fa8fcc104171d26f8e2ab4db34ee9131d
+    tag: 8f702a39afc407904578afd9c059b6821cbaa72b
   replicas: 1
   port: 80
 
 backend:
   image:
     repository: digdigdigdig/manualproject-backend
-    tag: e774b36fa8fcc104171d26f8e2ab4db34ee9131d
+    tag: 8f702a39afc407904578afd9c059b6821cbaa72b
   replicas: 1
   port: 5001
 
