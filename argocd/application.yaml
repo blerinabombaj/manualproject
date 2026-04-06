@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/blerinabombaj/manualproject
     targetRevision: HEAD
-    path: # PATH TO YOUR HELM CHART FOLDER IN THE REPO
+    path: helm/
     helm:
       valueFiles:
         - values.yaml
