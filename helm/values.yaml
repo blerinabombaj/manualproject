@@ -3,21 +3,21 @@ namespace: todo-app
 frontend:
   image:
     repository: digdigdigdig/manualproject-frontend
-    tag: latest
+    tag: e774b36fa8fcc104171d26f8e2ab4db34ee9131d
   replicas: 1
   port: 80
 
 backend:
   image:
     repository: digdigdigdig/manualproject-backend
-    tag: latest
+    tag: e774b36fa8fcc104171d26f8e2ab4db34ee9131d
   replicas: 1
   port: 5001
 
 postgres:
   image:
     repository: postgres
-    tag: 16-alpine
+    tag: e774b36fa8fcc104171d26f8e2ab4db34ee9131d
   replicas: 1
   port: 5432
   database: todos
