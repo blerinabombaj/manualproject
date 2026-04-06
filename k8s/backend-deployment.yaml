@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: digdigdigdig/manualproject-backend:latest 
+        image: digdigdigdig/manualproject-backend:5648f1ed7daf15da983431873e2ff6cec0017fee
         ports:
         - containerPort: 5001
         env:

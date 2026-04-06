@@ -17,6 +17,6 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: digdigdigdig/manualproject-frontend:latest 
+        image: digdigdigdig/manualproject-frontend:5648f1ed7daf15da983431873e2ff6cec0017fee
         ports:
         - containerPort: 80
