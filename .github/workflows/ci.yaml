@@ -40,8 +40,11 @@ jobs:
             ${{ secrets.DOCKERHUB_USERNAME }}/manualproject-backend:${{ github.sha }}
 
 
-      - name: Update image tags via Helm
+      - name: Update image tags in values.yaml
         run: |
-          helm upgrade --install todo-app ./todo-app \
-            --set frontend.image.tag=${{ github.sha }} \
-            --set backend.image.tag=${{ github.sha }}
+          sed -i "s|tag:.*|tag: ${{ github.sha }}|g" helm/values.yaml
+          git config user.email "ci@github.com"
+          git config user.name "GitHub Actions"
+          git add helm/values.yaml
+          git commit -m "ci: update image tags to ${{ github.sha }}"
+          git push
