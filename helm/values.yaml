@@ -39,3 +39,8 @@ backup:
   serviceAccount:
     name: backup-service-account
     roleArn: arn:aws:iam::444062204470:role/todo-app-s3-backup-role
+  cronJob:
+    name: s3-backup
+    schedule: "*/5 * * * *"
+  s3:
+    bucket: todo-app-backup-rl

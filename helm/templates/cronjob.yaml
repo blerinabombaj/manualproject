@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Values.backup.cronJob.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  schedule: {{ .Values.backup.cronJob.schedule | quote }}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: {{ .Values.backup.serviceAccount.name }}
+          restartPolicy: OnFailure
+          containers:
+            - name: backup
+              image: amazon/aws-cli:latest
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+                  echo "Starting backup at $TIMESTAMP"
+                  aws s3 cp /data s3://{{ .Values.backup.s3.bucket }}/backups/$TIMESTAMP/ --recursive
+                  echo "Backup complete"
