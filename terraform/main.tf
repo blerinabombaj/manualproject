@@ -87,3 +87,66 @@ resource "aws_security_group_rule" "nodes_ingress_backend" {
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = module.eks.node_security_group_id
 }
+
+resource "aws_s3_bucket" "todo_app_backup" {
+  bucket = "todo-app-backup-rl"
+
+  tags = {
+    Name        = "todo-app-backup"
+    Environment = "dev"
+  }
+}
+
+resource "aws_iam_policy" "s3_backup_policy" {
+  name        = "todo-app-s3-backup-policy"
+  description = "Allow writing backups to S3"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:PutObject",
+          "s3:GetObject",
+          "s3:ListBucket"
+        ]
+        Resource = [
+          aws_s3_bucket.todo_app_backup.arn,
+          "${aws_s3_bucket.todo_app_backup.arn}/*"
+        ]
+      }
+    ]
+  })
+}
+
+data "aws_iam_openid_connect_provider" "eks" {
+  url = "https://oidc.eks.eu-west-1.amazonaws.com/id/34BC78F4E9861A5795BBB18675E9E114"
+}
+
+resource "aws_iam_role" "s3_backup_role" {
+  name = "todo-app-s3-backup-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = {
+          Federated = data.aws_iam_openid_connect_provider.eks.arn
+        }
+        Action = "sts:AssumeRoleWithWebIdentity"
+        Condition = {
+          StringEquals = {
+            "${data.aws_iam_openid_connect_provider.eks.url}:sub" = "system:serviceaccount:todo-app:backup-service-account"
+          }
+        }
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "s3_backup_attach" {
+  role       = aws_iam_role.s3_backup_role.name
+  policy_arn = aws_iam_policy.s3_backup_policy.arn
+}

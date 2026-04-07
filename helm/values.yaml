@@ -34,3 +34,8 @@ ingress:
 rbac:
   devUser: dev-user
   adminUser: admin-user
+
+backup:
+  serviceAccount:
+    name: backup-service-account
+    roleArn: arn:aws:iam::444062204470:role/todo-app-s3-backup-role
